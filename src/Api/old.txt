@@ -1,0 +1,31 @@
+import Client from "./types/Client";
+import Message from "./types/Messages";
+
+import fs from "fs";
+import crypto from "crypto";
+
+//@ts-ignore
+const CreateBotFile = (client: Client, msges: Message[]) => {
+
+    let FirstLines = fs.readFileSync(__dirname + "/Strings/FirstLines").toString() + `const TOKEN = "${client.Token}"; \n const PREFIX = "${client.Prefix}"; \n`;
+    let MidLines = fs.readFileSync(__dirname + "/Strings/MidLines").toString();
+    let Endings = fs.readFileSync(__dirname + "/Strings/Endings").toString();
+
+    let commands = "";
+
+    msges.forEach(messages => {
+        let command = `case"${messages.trigger}": \n message.channel.send(${messages.message}) \n break;`;
+        commands = command + "\n";
+    });
+
+    let WholeCode = FirstLines + MidLines + commands + Endings + `Client.login(TOKEN)`;
+    let randomFileName = crypto.randomBytes(7).toString("base64");
+
+    let FileToStoreFIles = fs.createWriteStream(__dirname + `/${randomFileName}.js`);
+    FileToStoreFIles.write(WholeCode);
+
+    return randomFileName;
+
+};
+
+export default CreateBotFile;
