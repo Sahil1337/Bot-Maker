@@ -1,0 +1,11 @@
+{
+  "name": "Bot-Maker",
+  "version": "1.0.0",
+  "description": "Bot maker",
+  "main": "index.js",
+  "author": "Yashraj Narke",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^11.1.1"
+  }
+}
